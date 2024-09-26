@@ -11,7 +11,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
               },
               async authorize(credentials: any) {
-                const hashedPassword = bcrypt.hash(credentials.password,10);
+                const hashedPassword =await bcrypt.hash(credentials.password,10);
                 const existingUser = await db.user.findFirst({
                     where: {
                         number: credentials.phone
@@ -19,6 +19,8 @@ export const authOptions = {
                 })
 
                 if (existingUser) {
+                    // console.log(existingUser.number)
+                    // console.log(existingUser.password)
                     const passwordValidations = await bcrypt.compare(credentials.password,existingUser.password);
                     if (passwordValidations) {
                         return {
@@ -26,14 +28,16 @@ export const authOptions = {
                             email: existingUser.email,
                             name: existingUser.name
                         }
-                    } return null;
+                    } else {
+                        return null;
+                    }
                 }
 
                 try {
                     const user = await db.user.create({
                         data: {
                             number: credentials.phone,
-                            password: credentials.password
+                            password: hashedPassword
                         }
                     })
                     return {

@@ -1,15 +1,15 @@
-import Image from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-import { Appbar } from "./components/Appbar";
 
+import { getServerSession } from "next-auth"
+import { authOptions } from "./lib/auth";
+import { redirect } from "next/navigation";
 
-
-export default function Home() {
+export default async function Home(){
+  const session =await getServerSession(authOptions);
   
-  return (
-    <div className="">
-      <Appbar/>
-    </div>
-  );
+    if(session?.user) {
+     redirect('/dashboard')
+    } else {
+      redirect('/api/auth/signin')
+    }
+ 
 }
