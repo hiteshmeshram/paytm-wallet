@@ -4,14 +4,14 @@ export default function({children}:{
     children:React.ReactNode
 }) {
     return <div className="flex ">
-        <div className="w-1/6 h-screen border-r border-slate-300 pt-20 pl-4">
+        <div className="w-1/6 h-full border-r border-slate-300 pt-20 px-6">
             <div className="">
                 <SideBarItems title="Home" icon={<HomeIcon/>} href={'/dashboard'}/>
                 <SideBarItems title="Transfer" icon={<TransferIcon/>} href={'/transfer'}/>
                 <SideBarItems title="Transactions" icon={<TransactionsIcon/>} href={'/transactions'}/>
             </div>
         </div>
-        <div>{children}</div>
+        <div className="w-full">{children}</div>
 
     </div>
 }
